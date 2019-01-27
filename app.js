@@ -4,9 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// 渲染视图的路由
+var Routerobject = require('./routes/index');
 
+// api 路由
+var ApiRouterobj = require('./api/index');
 var app = express();
 
 // view engine setup
@@ -17,10 +19,19 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// 静态资源挂载
+app.use('/public',express.static(path.join(__dirname, 'public')));
+
+// 挂载视图路由
+for(vari in Routerobject){
+  app.use(i,Routerobject[i]);
+}
+
+// 挂载api路由
+for(var i in ApiRouterobj){
+  app.use('/api'+ i,ApiRouterobj[i]);
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
