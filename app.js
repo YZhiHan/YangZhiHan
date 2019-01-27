@@ -24,10 +24,10 @@ app.use(cookieParser());
 app.use('/public',express.static(path.join(__dirname, 'public')));
 
 // 挂载视图路由
-for(vari in Routerobject){
-  app.use(i,Routerobject[i]);
-}
-
+// for(vari in Routerobject){
+//   app.use(i,Routerobject[i]);
+// }
+app.use('/',Routerobject);
 // 挂载api路由
 for(var i in ApiRouterobj){
   app.use('/api'+ i,ApiRouterobj[i]);
