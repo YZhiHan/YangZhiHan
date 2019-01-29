@@ -24,17 +24,17 @@ function format_data(code,msg,data = []){
     return JSON.stringify(json_obj);
 }
 // 添加的方法
-function insert(tabname,data,callback){
+function insert(tabname, data, callback) {
     let keys = '';
     let values = '';
-    for(let i in data){
+    for (let i in data) {
         keys += i + ',';
         values += `'${data[i]}'` + ',';
     }
-    keys = keys.substring(0,keys.length - 1);
-    values = values.substring(0,values.length - 1);
+    keys = keys.substring(0, keys.length - 1);
+    values = values.substring(0, values.length - 1);
     var sql = `insert into \`${tabname}\`(${keys}) values(${values})`;
-    query(sql,callback);
+    qyery(sql, callback);
 }
 // 查找的方法
 function select(tabname,data,callback){

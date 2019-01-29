@@ -1,12 +1,17 @@
 var db = require('./../db/db');
 var hotel = {
     add_custom(req,res){
-        db.add('custom',req.body,function(e){
+        db.insert('customer',req.body,function(e){
+            res.send(e);
+        })
+    },
+    select_custom(req,res){
+        db.select('customer',req.body,function(e){
             res.send(e);
         })
     },
     update_custom(req,res){
-        db.update('custom',req.body,function(e){
+        db.update('hotel',req.body,function(e){
             res.send(e);
         })
     }
