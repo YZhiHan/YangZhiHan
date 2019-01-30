@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+</head>
+
+<body>
+    <div>房间类别：<input type="text" id="type"></div>
+    <div>房间类别编号：<input type="text" id="type_num"></div>
+    <div>房间面积：<input type="text" id="size">m^2</div>
+    <div>床位数量：<input type="number" id="bed_num">个</div>
+    <div>早餐：<select name="" id="breakfirst">
+            <option value="无">无早餐</option>
+            <option value="有">有早餐</option>
+        </select></div>
+    <div>电视：<select name="" id="Tv">
+            <option value="无">无电视</option>
+            <option value="有">有电视</option>
+        </select></div>
+    <div>网络：<select name="" id="internet">
+            <option value="无">无网络</option>
+            <option value="有">有网络</option>
+        </select></div>
+    <div>浴室：<select name="" id="shower">
+            <option value="无">无浴室</option>
+            <option value="有">有浴室</option>
+        </select></div>
+    <div>价格：<input type="number" id="prise">元/间</div>
+    <div>房间总数：<input type="number" name="" id="room_num">间</div>
+    <div>
+        <input id="submit" type="button" value="提交">
+    </div>
+</body>
+<script>
+    // 处理url
+    var url_ = '';
+    function gitId(key) {
+        url_ = location.search.split('?')[1];
+        if (url_ != null) {
+            var url_arr = url_.split('=');
+            for (var i in url_arr) {
+                if (key == url_arr[0]) {
+                    return url_arr[1];
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+    // 判断是新添加还是修改
+    is_add();
+    var type_id = 0;
+    function is_add() {
+        var res = gitId('ID');
+        if (res != null) {
+            search_type(res, function (e) {
+                type_id = e[0].ID;
+                $('#type_num').val(e[0].type_num);
+                $('#type').val(e[0].type_name);
+                $('#size').val(e[0].room_size);
+                $('#bed_num').val(e[0].bed_num);
+                $('#breakfirst').val(e[0].is_breakfirst);
+                $('#Tv').val(e[0].is_TV);
+                $('#internet').val(e[0].is_internet);
+                $('#shower').val(e[0].is_shower);
+                $('#prise').val(e[0].prise);
+                $('#room_num').val(e[0].all_num);
+            })
+        }
+    }
+    // 按照ID查找房间分类信息并渲染到input
+    function search_type(res, callback) {
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/select_type',
+            data: {
+                ID: res,
+            },
+            success: function (e) {
+                var obj = JSON.parse(e);
+                if (obj.code == 0) {
+                    callback(obj.data);
+                }
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+    }
+
+    // 修改分类
+    function update_type() {
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/update_type',
+            data: {
+                ID: type_id,
+                'type_num': $('#type_num').val(),
+                'type_name': $('#type').val(),
+                'room_size': $('#size').val(),
+                'bed_num': $('#bed_num').val(),
+                'is_breakfirst': $('#breakfirst').val(),
+                'is_TV': $('#Tv').val(),
+                'is_internet': $('#internet').val(),
+                'is_shower': $('#shower').val(),
+                'prise': $('#prise').val(),
+                'all_num': $('#room_num').val(),
+            },
+            success: function (e) {
+                debugger
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+    }
+    $('#submit').on('click', function () {
+        if(url_ == null){
+            addType();
+        }else{
+            update_type();
+            location.href = '/hotel/roomtype_list';
+        }
+        
+    })
+    function addType() {
+        var obj = {
+            'type_num': $('#type_num').val(),
+            'type_name': $('#type').val(),
+            'room_size': $('#size').val(),
+            'bed_num': $('#bed_num').val(),
+            'is_breakfirst': $('#breakfirst').val(),
+            'is_TV': $('#Tv').val(),
+            'is_internet': $('#internet').val(),
+            'is_shower': $('#shower').val(),
+            'prise': $('#prise').val(),
+            'all_num': $('#room_num').val(),
+
+        }
+        debugger
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/addRoom_type',
+            data: obj,
+            success: function (e) {
+                alert('添加成功');
+                debugger
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+    }
+</script>
+
+</html>

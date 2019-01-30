@@ -35,6 +35,30 @@ var hotel = {
         db.update('customer',req.body,function(e){
             res.send(e);
         })
+    },
+    // 新增房间
+    addR(req,res){
+        db.insert('room',req.body,function(e){
+            res.send(e);
+        })
+    },
+    // 新增房间类别
+    addR_t(req,res){
+        db.insert('room_type',req.body,function(e){
+            res.send(e);
+        })
+    },
+    // 查询房间类别表
+    selectR_t(req,res){
+        db.selectWhere('room_type',req.body,function(e){
+            res.send(e);
+        })
+    },
+    // 修改房屋类别信息
+    updateR_t(req,res){
+        db.update('room_type',req.body,function(e){
+            res.send(e);
+        })
     }
 }
 module.exports = hotel;

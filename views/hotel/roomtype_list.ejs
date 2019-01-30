@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+    <style>
+    table td{
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+    <table border="1" cellspacing="0" cellpadding="0" >
+        <thead>
+            <th>房间类别标识</th>
+            <th>房间类别名称</th>
+            <th>房间面积(间/m^2)</th>
+            <th>床位数量(个)</th>
+            <th>早餐</th>
+            <th>电视</th>
+            <th>网络</th>
+            <th>浴室</th>
+            <th>房间总数(间)</th>
+            <th>价格(元/间)</th>
+            <th>编辑</th>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+</body>
+<script>
+    var html_ = '';
+$.ajax({
+    type:'post',
+    url:'/api/hotel/select_type',
+    success:function(e){
+        var data = JSON.parse(e).data;
+        for(var i in data){
+            html_ += ` <tr>
+                <td>${data[i].type_num}</td>
+                <td>${data[i].type_name}</td>
+                <td>${data[i].room_size}</td>
+                <td>${data[i].bed_num}</td>
+                <td>${data[i].is_breakfirst}</td>
+                <td>${data[i].is_TV}</td>
+                <td>${data[i].is_internet}</td>
+                <td>${data[i].is_shower}</td>
+                <td>${data[i].all_num}</td>
+                <td>${data[i].prise}</td>
+                <td>
+                    <a href="#" onclick="change(${data[i].ID})">修改</a>
+                    <a href="#" onclick="delet(${data[i].ID})">删除</a>
+                </td>
+            </tr>`
+        }
+       $('tbody').html(html_);
+    },
+    error:function(e){
+        debugger
+    }
+})
+
+function change(obj){
+    debugger
+    location.href='/hotel/addRoom_type?ID=' + obj;
+}
+</script>
+</html>

@@ -78,7 +78,6 @@ function update(tablename, data, callback){
     }
     values = values.substring(0, values.length - 1);
     var sql = `UPDATE \`${tablename}\` SET ${values} WHERE ${where_} `;
-    console.log(sql);
     qyery(sql, callback);
 }
 // 删除的方法
