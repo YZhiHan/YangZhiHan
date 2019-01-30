@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+    <style>
+        table {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <th>序号</th>
+            <th>证件号</th>
+            <th>证件类型</th>
+            <th>客户姓名</th>
+            <th>客户性别</th>
+            <th>编辑</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</body>
+<script>
+    // 查找客人信息
+    var html_ = '';
+    var arr = [];
+    $.ajax({
+        type: 'post',
+        url: '/api/hotel/selectCustom',
+        success: function (e) {
+            arr = JSON.parse(e).data;
+            for (var i in arr) {
+                html_ += ` <tr>
+                <td>${Number(i) + 1}</td>
+                <td>${arr[i].cardnum}</td>
+                <td>${arr[i].cardtype}</td>
+                <td>${arr[i].cname}</td>
+                <td>${arr[i].csex}</td>
+                <td>
+                    <a href="#"  " onclick="change(${arr[i].ID})">修改</a>
+                    <a href="#" onclick="delt(${arr[i].ID})">删除</a>
+                    </td>
+            </tr>`
+            }
+            $('tbody').html(html_);
+        },
+        error: function (e) {
+            debugger
+        }
+    })
+    function change(obj){
+        debugger
+       location.href = '/hotel/addCustom?ID=' + obj;
+    }
+</script>
+
+</html>

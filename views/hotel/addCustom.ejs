@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <input type="text" id="cardnum" placeholder="证件号">
+    <input type="text" id="cardtype" placeholder="证件类型">
+    <input type="text" id="customname" placeholder="客户姓名">
+    <input type="text" id="customsex" placeholder="客户性别">
+    <input id="submit" type="button" value="提交">
+
+</body>
+<script>
+
+    // 处理路径
+    var url_ = '';
+    function gitId(key) {
+        url = location.search;
+        url_ = url.split('?')[1];
+        if (url_ != null) {
+            var url_arr = url_.split('&');
+            for (var i in url_arr) {
+                var temp = url_arr[i].split('=');
+                if (key == temp[0]) {
+                    return temp[1];
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+    // 将当前要修改的个人基本信息渲染在input框中
+    isId();
+    var Id_ = 0;
+    function isId() {
+        var res = gitId('ID');
+        if (res != null) {
+            customInf(res, function (e) {
+                Id_ = e[0].ID;
+                $('#cardnum').val(e[0].cardnum);
+                $('#cardtype').val(e[0].cardtype);
+                $('#customname').val(e[0].cname);
+                $('#customsex').val(e[0].csex);
+            })
+        }
+    }
+
+    // 查找客人基本信息
+    function customInf(arr_id, callback) {
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/selectCustom',
+            data: {
+                ID: arr_id,
+            },
+            success: function (e) {
+                var obj = JSON.parse(e);
+                debugger
+                if (obj.code == 0) {
+                    callback(obj.data);
+                }
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+    }
+    // 添加or修改客人信息的点击事件
+    $('#submit').on('click', function () {
+        debugger
+        if (url_ == undefined) {
+            add();
+        } else {
+            update();
+            location.href = '/hotel/customList';
+        }
+
+    })
+    // 修改个人基本信息
+    function update() {
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/updateCustom',
+            data: {
+                'ID': Id_,
+                'cardnum': $('#cardnum').val(),
+                'cardtype': $('#cardtype').val(),
+                'cname': $('#customname').val(),
+                'csex': $('#customsex').val(),
+            },
+            success: function (e) {
+                debugger
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+    }
+
+    // 添加客人信息
+    function add() {
+        var obj = {
+            'cardnum': $('#cardnum').val(),
+            'cardtype': $('#cardtype').val(),
+            'cname': $('#customname').val(),
+            'csex': $('#customsex').val(),
+        }
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/addCustom',
+            data: obj,
+            success: function (e) {
+                debugger
+            },
+            error: function (e) {
+                debugger;
+            }
+        })
+    }
+
+</script>
+
+</html>

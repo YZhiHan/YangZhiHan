@@ -2,6 +2,6 @@ module.exports = {
     host:'localhost',
     user:'root',
     password:'',
-    database:'hotel',
+    database:'hotels',
     poat:3306,
 }
