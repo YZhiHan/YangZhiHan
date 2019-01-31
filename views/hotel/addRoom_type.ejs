@@ -56,10 +56,10 @@
     is_add();
     var type_id = 0;
     function is_add() {
-        var res = gitId('ID');
+        var res = gitId('type_id');
         if (res != null) {
             search_type(res, function (e) {
-                type_id = e[0].ID;
+                type_id = e[0].type_id;
                 $('#type_num').val(e[0].type_num);
                 $('#type').val(e[0].type_name);
                 $('#size').val(e[0].room_size);
@@ -75,11 +75,12 @@
     }
     // 按照ID查找房间分类信息并渲染到input
     function search_type(res, callback) {
+        debugger
         $.ajax({
             type: 'post',
             url: '/api/hotel/select_type',
             data: {
-                ID: res,
+                type_id: res,
             },
             success: function (e) {
                 var obj = JSON.parse(e);
@@ -99,7 +100,7 @@
             type: 'post',
             url: '/api/hotel/update_type',
             data: {
-                ID: type_id,
+                'type_id': type_id,
                 'type_num': $('#type_num').val(),
                 'type_name': $('#type').val(),
                 'room_size': $('#size').val(),

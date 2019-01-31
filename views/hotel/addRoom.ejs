@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,76 +8,86 @@
     <title>Document</title>
     <script src="/static/javascripts/jquery.min.js"></script>
 </head>
+
 <body>
-    <div>房间编号：<input id="num" type="text" placeholder="请输入房间编号"></div>  
-   <div>房间类型: <select name="" id="select_type">
-        <option value="0">请选择房间类型</option>
-        <!-- 数据 -->
-    </select></div> 
+    <div>房间编号：<input id="num" type="text" placeholder="请输入房间编号"></div>
+    <div>房间类型: <select name="" id="select_type">
+            <option value="0">请选择房间类型</option>
+            <!-- 数据 -->
+        </select></div>
     <div>房间位置：<select name="" id="select_position">
-        <option value="0">请选择</option>
-        <option value="一楼东侧">一楼东侧</option>
-        <option value="一楼中间">一楼中间</option>
-        <option value="一楼西侧">一楼西侧</option>
-        <option value="二楼东侧">二楼东侧</option>
-        <option value="二楼西侧">二楼西侧</option>
-        <option value="三楼东侧">三楼东侧</option>
-        <option value="三楼中间">三楼中间</option>
-        <option value="三楼西侧">三楼西侧</option>
-    </select></div> 
-   <div>入住状态：<select name="" id="select_check">
-        <option value="未入住" selected>未入住</option>
-        <option value="已入住">已入住</option>
-    </select></div> 
-   <div>房间描述：<input id="direcion" type="textarea"></div> 
-   <input type="reset" value="重置">
-   <input id="submit" type="button" value="提交">
+            <option value="0">请选择房间位置</option>
+            <!-- 数据 -->
+        </select></div>
+    <div>入住状态：<select name="" id="select_check">
+            <option value="未入住" selected>未入住</option>
+            <option value="已入住">已入住</option>
+        </select></div>
+    <div>房间描述：<input id="direcion" type="textarea"></div>
+    <input type="reset" value="重置">
+    <input id="submit" type="button" value="提交">
 </body>
 <script>
     // 渲染房间类别
     var html_ = '';
     $.ajax({
-        type:'post',
-        url:'/api/hotel/select_type',
-        success:function(e){
+        type: 'post',
+        url: '/api/hotel/select_type',
+        success: function (e) {
             var data = JSON.parse(e).data;
-            for(var i in data){
-                html_ += ` <option value="${data[i].type_num}">${data[i].type_name}</option>`
+            for (var i in data) {
+                html_ += ` <option value="${data[i].ID}">${data[i].type_name}</option>`
             }
             $('#select_type').append(html_);
-            debugger
         },
-        error:function(e){
+        error: function (e) {
             debugger
         }
     })
-    $('#submit').on('click',function(){
+
+    // 渲染房间位置
+    var htmls = '';
+    $.ajax({
+        type: 'post',
+        url: '/api/hotel/select_position',
+        success: function (e) {
+            var data = JSON.parse(e).data;
+            for (var i in data) {
+                htmls += `<option value="${data[i].ID}">${data[i].position}</option>`
+            }
+            $('#select_position').append(htmls);
+            debugger
+        },
+        error: function (e) {
+            debugger
+        }
+    })
+    $('#submit').on('click', function () {
         addroom();
     })
 
     // 新增房间的方法
-    function addroom(){
-        debugger
+    function addroom() {
         var obj = {
-            'room_num':$('#num').val(),
-            'room_type':$('#select_type').val(),
-            'room_position':$('#select_position').val(),
-            'is_check':$('#select_check').val(),
-            'room_derication':$('#direcion').val(),
+            'room_num': $('#num').val(),
+            'room_type': $('#select_type').val(),
+            'position_id': $('#select_position').val(),
+            'is_check': $('#select_check').val(),
+            'room_derication': $('#direcion').val(),
         }
         $.ajax({
-            type:'post',
-            url:'/api/hotel/addRoom',
-            data:obj,
-            success:function(e){
-                alert('添加成功')
-                debugger
+            type: 'post',
+            url: '/api/hotel/addRoom',
+            data: obj,
+            success: function (e) {
+                alert('添加成功');
             },
-            error:function(e){
+            error: function (e) {
                 debugger
             }
         })
     }
-    
+
 </script>
+
 </html>

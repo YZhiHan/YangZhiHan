@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+</head>
+<body>
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <th>房间编号</th>
+            <th>房间类型</th>
+            <th>房间位置</th>
+            <th>房间状态</th>
+            <th>房间描述</th>
+            <th>编辑</th>
+        </thead>
+        <tbody>
+           
+        </tbody>
+    </table>
+</body>
+<script>
+    var html_ = '';
+    $.ajax({
+        type:'post',
+        url:'/api/hotel/selectMore',
+        success:function(e){
+            var data = JSON.parse(e).data;
+            for(var i in data){
+                html_ += ` <tr>
+                <td>${data[i].room_num}</td>
+                <td>${data[i].type_name}</td>
+                <td>${data[i].position}</td>
+                <td>${data[i].is_check}</td>
+                <td>${data[i].room_derication}</td>
+                <td>
+                    <a onclick="change(${data[i].ID})">修改</a>
+                    <a onclick="delt(${data[i].ID})">删除</a>
+                    </td>
+            </tr>`
+            }
+            $('tbody').html(html_);
+            debugger
+        },
+        error:function(e){
+            debugger
+        }
+    })
+</script>
+</html>

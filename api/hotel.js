@@ -40,4 +40,16 @@ router.post('/select_type',function(req,res){
 router.post('/update_type',function(req,res){
     server_type.updateR_t(req,res);
 })
+// 添加房间位置
+router.post('/addroom_position',function(req,res){
+    server_type.addR_p(req,res);
+})
+// 查找房间位置
+router.post('/select_position',function(req,res){
+    server_type.selectR_p(req,res);
+})
+// 多表联查
+router.post('/selectMore',function(req,res){
+    server_type.selectMore(req,res);
+})
 module.exports = router;

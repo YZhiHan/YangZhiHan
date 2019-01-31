@@ -33,7 +33,7 @@ function format_data(code, msg, data = []) {
     var json_obj = { code, msg, data };
     return JSON.stringify(json_obj);
 }
-// 添加分类
+// 添加
 function insert(tabname, data, callback) {
     let keys = '';
     let values = '';
@@ -47,7 +47,7 @@ function insert(tabname, data, callback) {
     qyery(sql, callback);
 }
 // 查询的方法
-function select(tablename,data,callback) {
+function select(tablename, data, callback) {
     var sql = `select * from \`${tablename}\``;
     // console.log(sql);
     qyery(sql, callback);
@@ -65,31 +65,38 @@ function selectWhere(tablename, data, callback) {
 
 }
 // 更新的方法
-function update(tablename, data, callback){
+function update(tablename, data,key, callback) {
     let values = '';
     for (let i in data) {
         values += `${i}='${data[i]}'` + ',';
     }
     let where_ = '';
     for (var i in data) {
-        if(i == 'ID'){
+        if (i == key) {
             where_ = `${i}='${data[i]}'`;
         }
     }
     values = values.substring(0, values.length - 1);
     var sql = `UPDATE \`${tablename}\` SET ${values} WHERE ${where_} `;
+    console.log(sql);
     qyery(sql, callback);
 }
 // 删除的方法
-function deletes(tablename, data, callback){
-    for(let i in data){
-        if(i == 'ID'){
+function deletes(tablename, data, callback) {
+    for (let i in data) {
+        if (i == 'ID') {
             where_ = `${i}='${data[i]}'`;
         }
     }
     var sql = `DELETE FROM \`${tablename}\` WHERE ${where_}`;
+    // console.log(sql);
+    qyery(sql, callback);
+}
+// 多表联查(房间位置，房间，房间类型)
+function select_more(tab1, tab2, tab3,callback) {
+    var sql = `select * from \`${tab1}\`,\`${tab2}\`,\`${tab3}\` where \`${tab1}\`.type_id=\`${tab2}\`.type_id and \`${tab2}\`.position_id=\`${tab3}\`.position_id`;
     console.log(sql);
-    query(sql,callback);
+    qyery(sql, callback);
 }
 // 返回结果的封装方法
 function qyery(sql, callback) {
@@ -98,9 +105,9 @@ function qyery(sql, callback) {
         if (res) {
             json = format_data(0, '成功', res);
         } else {
-            json = format_data(1, '失败',sql);
+            json = format_data(1, '失败', sql);
         }
         callback(json);
     })
 }
-module.exports = { insert, select, selectWhere, update, deletes}
+module.exports = { insert, select, selectWhere, update, deletes, select_more }

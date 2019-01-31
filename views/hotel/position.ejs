@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+</head>
+<body>
+    房间位置：<input type="text" id="position">
+    <button id="submit">提交</button>
+</body>
+<script>
+    $('#submit').on('click',function(){
+        add()
+    })
+    function add(){
+        $.ajax({
+        type:'post',
+        url:'/api/hotel/addroom_position',
+        data:{
+            position:$('#position').val(),
+        },
+        success:function(e){
+            debugger
+        },
+        error:function(e){
+            debugger
+        }
+    })
+    }
+   
+
+</script>
+</html>

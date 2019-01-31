@@ -5,6 +5,10 @@ var router = require('express').Router();
 router.get('/addAdmin', function(req, res) {
   res.render('hotel/addAdmin', { title: '添加管理员' });
 })
+// 管理员修改密码
+router.get('/changeAdmin', function(req, res) {
+  res.render('hotel/changeAdmin', { title: '添加管理员' });
+})
 // 添加客人
 router.get('/addCustom',function(req,res){
   res.render('hotel/addCustom',{title:'添加客人'});
@@ -24,5 +28,13 @@ router.get('/addRoom_type',function(req,res){
 // 渲染房间类别列表
 router.get('/roomtype_list',function(req,res){
   res.render('hotel/roomtype_list',{title:'新增房间类别'});
+})
+// 添加房间位置
+router.get('/position',function(req,res){
+  res.render('hotel/position',{title:'新增房间位置'})
+})
+// 房间列表
+router.get('/roomList',function(req,res){
+  res.render('hotel/roomList',{title:'房间管理列表'})
 })
 module.exports = router;

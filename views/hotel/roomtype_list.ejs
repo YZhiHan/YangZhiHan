@@ -52,8 +52,8 @@ $.ajax({
                 <td>${data[i].all_num}</td>
                 <td>${data[i].prise}</td>
                 <td>
-                    <a href="#" onclick="change(${data[i].ID})">修改</a>
-                    <a href="#" onclick="delet(${data[i].ID})">删除</a>
+                    <a href="#" onclick="change(${data[i].type_id})">修改</a>
+                    <a href="#" onclick="delet(${data[i].type_id})">删除</a>
                 </td>
             </tr>`
         }
@@ -66,7 +66,7 @@ $.ajax({
 
 function change(obj){
     debugger
-    location.href='/hotel/addRoom_type?ID=' + obj;
+    location.href='/hotel/addRoom_type?type_id=' + obj;
 }
 </script>
 </html>

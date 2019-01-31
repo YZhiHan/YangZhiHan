@@ -14,7 +14,7 @@ var hotel = {
     },
     // 更新管理员
     update(req,res){
-        db.update('admin',req.body,function(e){
+        db.update('admin',req.body,'ID',function(e){
             res.send(e);
         })
     },
@@ -32,7 +32,7 @@ var hotel = {
     },
     // 更改客人信息
     updateC(req,res){
-        db.update('customer',req.body,function(e){
+        db.update('customer',req.body,'ID',function(e){
             res.send(e);
         })
     },
@@ -56,7 +56,25 @@ var hotel = {
     },
     // 修改房屋类别信息
     updateR_t(req,res){
-        db.update('room_type',req.body,function(e){
+        db.update('room_type',req.body,'type_id',function(e){
+            res.send(e);
+        })
+    },
+    // 添加房间位置
+    addR_p(req,res){
+        db.insert('room_position',req.body,function(e){
+            res.send(e);
+        })
+    },
+    // 查找房间位置
+    selectR_p(req,res){
+        db.select('room_position',req.body,function(e){
+            res.send(e);
+        })
+    },
+    // 多表联查(房间位置，房间，房间类型)
+    selectMore(req,res){
+        db.select_more('room_type','room','room_position',function(e){
             res.send(e);
         })
     }
