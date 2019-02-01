@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+    <style>
+        table {
+            text-align: center;
+        }
+
+        table td {
+            padding: 5px 15px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <th>房间编号</th>
+            <th>类型编号</th>
+            <th>类型名称</th>
+            <th>房间位置</th>
+            <th>房间面积</th>
+            <th>床位数量</th>
+            <th>早餐</th>
+            <th>网络</th>
+            <th>电视</th>
+            <th>浴室</th>
+            <th>价格</th>
+            <th>操作</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</body>
+<script>
+    // 大堂入住查询空闲房间
+    var html_ = '';
+    $.ajax({
+        type: 'post',
+        url: '/api/hotel/selectMore',
+        success: function (e) {
+            var data = JSON.parse(e).data;
+            debugger
+            for (var i in data) {
+                if (data[i].is_check == '未入住') {
+                    html_ += ` <tr>
+                <td>${data[i].room_num}</td>
+                <td>${data[i].type_num}</td>
+                <td>${data[i].type_name}</td>
+                <td>${data[i].position}</td>
+                <td>${data[i].room_size}</td>
+                <td>${data[i].bed_num}</td>
+                <td>${data[i].is_breakfirst}</td>
+                <td>${data[i].is_internet}</td>
+                <td>${data[i].is_TV}</td>
+                <td>${data[i].is_shower}</td>
+                <td>${data[i].prise}</td>
+                <td>
+                    <a href="#" onclick="check(${data[i].ID})">办理入住</a>
+                </td>
+            </tr>`
+                }
+
+            }
+            $('tbody').html(html_);
+        },
+        error: function (e) {
+            debugger
+        }
+    })
+    function check(obj) {
+        debugger
+        location.href = '/hotel/check_in?ID=' + obj;
+    }
+</script>
+
+</html>

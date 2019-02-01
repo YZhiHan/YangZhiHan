@@ -113,7 +113,9 @@
                 'all_num': $('#room_num').val(),
             },
             success: function (e) {
-                debugger
+                if(JSON.parse(e).code == 0){
+                    alert('修改成功');
+                }
             },
             error: function (e) {
                 debugger

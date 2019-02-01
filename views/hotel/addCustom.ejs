@@ -104,26 +104,26 @@
         })
     }
 
-    // 添加客人信息
-    function add() {
-        var obj = {
-            'cardnum': $('#cardnum').val(),
-            'cardtype': $('#cardtype').val(),
-            'cname': $('#customname').val(),
-            'csex': $('#customsex').val(),
-        }
-        $.ajax({
-            type: 'post',
-            url: '/api/hotel/addCustom',
-            data: obj,
-            success: function (e) {
-                debugger
-            },
-            error: function (e) {
-                debugger;
-            }
-        })
-    }
+    // // 添加客人信息
+    // function add() {
+    //     var obj = {
+    //         'cardnum': $('#cardnum').val(),
+    //         'cardtype': $('#cardtype').val(),
+    //         'cname': $('#customname').val(),
+    //         'csex': $('#customsex').val(),
+    //     }
+    //     $.ajax({
+    //         type: 'post',
+    //         url: '/api/hotel/addCustom',
+    //         data: obj,
+    //         success: function (e) {
+    //             debugger
+    //         },
+    //         error: function (e) {
+    //             debugger;
+    //         }
+    //     })
+    // }
 
 </script>
 

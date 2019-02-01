@@ -63,10 +63,27 @@ $.ajax({
         debugger
     }
 })
-
+// 修改房间类型信息
 function change(obj){
     debugger
     location.href='/hotel/addRoom_type?type_id=' + obj;
+}
+// 删除房间类型
+function delet(obj){
+    $.ajax({
+        type:'post',
+        url:'/api/hotel/delete_type',
+        data:{
+            'type_id':obj,
+        },
+        success:function(e){
+            alert('删除成功');
+            debugger
+        },
+        error:function(e){
+            debugger
+        }
+    })
 }
 </script>
 </html>

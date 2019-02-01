@@ -43,7 +43,7 @@ function insert(tabname, data, callback) {
     }
     keys = keys.substring(0, keys.length - 1);
     values = values.substring(0, values.length - 1);
-    var sql = `insert into \`${tabname}\`(${keys}) values(${values})`;
+    var sql = `insert into \`${tabname}\`(${keys}) values (${values})`;
     qyery(sql, callback);
 }
 // 查询的方法
@@ -65,7 +65,7 @@ function selectWhere(tablename, data, callback) {
 
 }
 // 更新的方法
-function update(tablename, data,key, callback) {
+function update(tablename, data,key,callback) {
     let values = '';
     for (let i in data) {
         values += `${i}='${data[i]}'` + ',';
@@ -78,13 +78,13 @@ function update(tablename, data,key, callback) {
     }
     values = values.substring(0, values.length - 1);
     var sql = `UPDATE \`${tablename}\` SET ${values} WHERE ${where_} `;
-    console.log(sql);
+    // console.log(sql);
     qyery(sql, callback);
 }
 // 删除的方法
-function deletes(tablename, data, callback) {
+function deletes(tablename, data,key,callback) {
     for (let i in data) {
-        if (i == 'ID') {
+        if (i == key) {
             where_ = `${i}='${data[i]}'`;
         }
     }
@@ -95,6 +95,17 @@ function deletes(tablename, data, callback) {
 // 多表联查(房间位置，房间，房间类型)
 function select_more(tab1, tab2, tab3,callback) {
     var sql = `select * from \`${tab1}\`,\`${tab2}\`,\`${tab3}\` where \`${tab1}\`.type_id=\`${tab2}\`.type_id and \`${tab2}\`.position_id=\`${tab3}\`.position_id`;
+    // console.log(sql);
+    qyery(sql, callback);
+}
+// 两表联查
+function select_two(tab1,tab2,data,callback){
+    for (let i in data) {
+        if (i == 'ID') {
+            where_ = `${i}='${data[i]}'`;
+        }
+    }
+    var sql = `select * from \`${tab1}\` as a JOIN \`${tab2}\` as b where a.${where_} and a.type_id=b.type_id`;
     console.log(sql);
     qyery(sql, callback);
 }
@@ -110,4 +121,7 @@ function qyery(sql, callback) {
         callback(json);
     })
 }
-module.exports = { insert, select, selectWhere, update, deletes, select_more }
+
+
+
+module.exports = { insert, select, selectWhere, update, deletes, select_more,select_two }

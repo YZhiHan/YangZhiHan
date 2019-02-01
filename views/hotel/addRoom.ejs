@@ -36,7 +36,7 @@
         success: function (e) {
             var data = JSON.parse(e).data;
             for (var i in data) {
-                html_ += ` <option value="${data[i].ID}">${data[i].type_name}</option>`
+                html_ += ` <option value="${data[i].type_id}">${data[i].type_name}</option>`
             }
             $('#select_type').append(html_);
         },
@@ -53,7 +53,7 @@
         success: function (e) {
             var data = JSON.parse(e).data;
             for (var i in data) {
-                htmls += `<option value="${data[i].ID}">${data[i].position}</option>`
+                htmls += `<option value="${data[i].position_id}">${data[i].position}</option>`
             }
             $('#select_position').append(htmls);
             debugger
@@ -70,17 +70,21 @@
     function addroom() {
         var obj = {
             'room_num': $('#num').val(),
-            'room_type': $('#select_type').val(),
+            'type_id': $('#select_type').val(),
             'position_id': $('#select_position').val(),
             'is_check': $('#select_check').val(),
             'room_derication': $('#direcion').val(),
         }
+        debugger
         $.ajax({
             type: 'post',
             url: '/api/hotel/addRoom',
             data: obj,
             success: function (e) {
-                alert('添加成功');
+                debugger
+                if(JSON.parse(e).code == '0'){
+                    alert('添加成功');
+                }
             },
             error: function (e) {
                 debugger

@@ -60,6 +60,13 @@ var hotel = {
             res.send(e);
         })
     },
+    // 删除房间类别
+    deleteR_t(req,res){
+        db.deletes('room_type',req.body,'type_id',function(e){
+            console.log(req.body);
+            res.send(e);
+        })
+    },
     // 添加房间位置
     addR_p(req,res){
         db.insert('room_position',req.body,function(e){
@@ -75,6 +82,12 @@ var hotel = {
     // 多表联查(房间位置，房间，房间类型)
     selectMore(req,res){
         db.select_more('room_type','room','room_position',function(e){
+            res.send(e);
+        })
+    },
+    // 两表联查（房间，房间类型）
+    selectTwo(req,res){
+        db.select_two('room','room_type',req.body,function(e){
             res.send(e);
         })
     }

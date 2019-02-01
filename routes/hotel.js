@@ -37,4 +37,12 @@ router.get('/position',function(req,res){
 router.get('/roomList',function(req,res){
   res.render('hotel/roomList',{title:'房间管理列表'})
 })
+// 大堂入住列表
+router.get('/datang',function(req,res){
+  res.render('hotel/datangruzhu',{title:'大堂入住列表'})
+})
+// 确认入住订单
+router.get('/check_in',function(req,res){
+  res.render('hotel/check_in',{title:'大堂入住确认'})
+})
 module.exports = router;

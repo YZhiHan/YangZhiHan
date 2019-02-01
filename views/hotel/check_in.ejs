@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="/static/javascripts/jquery.min.js"></script>
+</head>
+
+<body>
+    <div>房间编号：<input id="room_num" type="text"></div>
+    <div>类型编号：<input id="type_num" type="text"></div>
+    <div>类型名称：<input id="type_name" type="text"></div>
+    <div>房间价格：<input id="prise" type="text"></div>
+    <div>客户姓名：<input id="custom_name" type="text"></div>
+    <div>证件类型：<select id="card_type" type="text">
+            <option value="身份证">身份证</option>
+            <option value="学生证">学生证</option>
+            <option value="军官证">军官证</option>
+        </select></div>
+    <div>证件号码：<input id="card_num" type="text"></div>
+    <div>性别：<select name="" id="sex">
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        <div>入住时间：<input id="check_time" type="text"></div>
+        <div>离开时间：<input id="outtime" type="text"></div>
+        <div>联系电话：<input id="phone" type="text"></div>
+        <input type="button" name="" id="submit" value="确认入住">
+</body>
+<script>
+    // 处理路径 获取id
+    var res= location.search.split('?')[1];
+    var id_ = res.split('=')[1];
+    // 获取入住时间
+    var res = new Date();
+    var year = res.getFullYear();
+    var month = res.getMonth()+1;
+    if(Number(month) <= 9){
+        month = '0'+month;
+    }
+    var day = res.getDate();
+    if(Number(day) <= 9){
+        day = '0'+day;
+    }
+    var time = year+month+day ;
+    $('#check_time').val(time);
+    // 渲染房间信息
+    $.ajax({
+        type:'post',
+        url:'/api/hotel/selectTwo',
+        data:{
+            ID:id_,
+        },
+        success:function(e){
+            var data = JSON.parse(e).data;
+            $('#room_num').val(data[0].room_num);
+            $('#type_num').val(data[0].type_num);
+            $('#type_name').val(data[0].type_name);
+            $('#prise').val(data[0].prise);
+        },
+        error:function(e){
+            debugger
+        }
+    })
+    // 存储客人基本信息
+    $('#submit').on('click',function(){
+        addCustom();
+    })
+    function addCustom(){
+        var obj = {
+            'cardnum':$('#card_num').val(),
+            'cardtype':$('#card_type').val(),
+            'cname': $('#custom_name').val(),
+            'csex':$('#sex').val(),
+        }
+        $.ajax({
+            type:'post',
+            url:'/api/hotel/addCustom',
+            data:obj,
+            success:function(e){
+                if(JSON.parse(e).code == 0){
+                    alert('登记成功')
+                }
+                debugger
+            },
+            error:function(e){
+                debugger
+            }
+        })
+    }
+</script>
+
+</html>
