@@ -90,6 +90,30 @@ var hotel = {
         db.select_two('room','room_type',req.body,function(e){
             res.send(e);
         })
+    },
+    // 修改房间信息
+    updateRoom(req,res){
+        db.update('room',req.body,'ID',function(e){
+            res.send(e);
+        })
+    },
+    // 删除房间信息
+    deleteRoom(req,res){
+        db.deletes('room',req.body,'ID',function(e){
+            res.send(e);
+        })
+    },
+    // 添加订单
+    addO(req,res){
+        db.insert('order_list',req.body,function(e){
+            res.send(e);
+        })
+    },
+    // 多表联查(订单列表，客户表，房间表，房间类型表)
+    select_order(req,res){
+        db.select_({table1:'order_list',table2:'customer',table3:'room',table4:'room_type'},function(e){
+            res.send(e);
+        })
     }
 }
 module.exports = hotel;

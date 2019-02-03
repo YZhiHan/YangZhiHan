@@ -43,11 +43,30 @@
             </tr>`
             }
             $('tbody').html(html_);
-            debugger
         },
         error:function(e){
             debugger
         }
     })
+    // 修改房间列表信息
+    function change(obj){
+        location.href = '/hotel/addRoom?ID=' + obj;
+    }
+    // 删除房间信息
+    function delt(obj){
+        $.ajax({
+            type:'post',
+            url:'/api/hotel/deleteRoom',
+            data:{
+                'ID':obj,
+            },
+            success:function(e){
+                debugger
+            },
+            error:function(e){
+                debugger
+            }
+        })
+    }
 </script>
 </html>

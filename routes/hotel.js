@@ -45,4 +45,8 @@ router.get('/datang',function(req,res){
 router.get('/check_in',function(req,res){
   res.render('hotel/check_in',{title:'大堂入住确认'})
 })
+// 订单列表
+router.get('/orderlist',function(req,res){
+  res.render('hotel/orderList',{title:'订单列表'})
+})
 module.exports = router;

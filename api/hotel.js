@@ -60,4 +60,20 @@ router.post('/selectMore', function (req, res) {
 router.post('/selectTwo', function (req, res) {
     server_type.selectTwo(req, res);
 })
+// 修改房间信息
+router.post('/updateRoom',function(req,res){
+    server_type.updateRoom(req, res);
+})
+// 删除房间信息
+router.post('/deleteRoom',function(req,res){
+    server_type.deleteRoom(req,res);
+})
+// 添加订单
+router.post('/addorder',function(req,res){
+    server_type.addO(req,res);
+})
+ // 多表联查(订单列表，客户表，房间表，房间类型表)
+ router.post('/select_orderlist',function(req,res){
+    server_type.select_order(req,res);
+ })
 module.exports = router;

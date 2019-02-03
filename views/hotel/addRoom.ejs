@@ -56,16 +56,72 @@
                 htmls += `<option value="${data[i].position_id}">${data[i].position}</option>`
             }
             $('#select_position').append(htmls);
-            debugger
         },
         error: function (e) {
             debugger
         }
     })
+    // 提交的点击事件
     $('#submit').on('click', function () {
-        addroom();
+        if(url_ == null){
+            addroom();
+        }else{
+            updateRoom();
+            location.href = '/hotel/roomList';
+        }
     })
 
+    // 处理路径
+    var url_ = '';
+    function getId(key) {
+        url_ = location.search.split('?')[1];
+        if (url_ != null) {
+            var url_arr = url_.split('&');
+            for (var i in url_arr) {
+                var res = url_arr[i].split('=');
+                if (key == res[0]) {
+                    return res[1];
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+    // 将当前需要修改的房间信息渲染在input中
+    is_id();
+    var id_ = 0;
+    function is_id() {
+        var res = getId('ID');
+        if (res != null) {
+            getroom_infor(res, function (e) {
+                for (var i in e) {
+                    if (res == e[i].ID) {
+                        id_ = e[i].ID;
+                        $('#num').val(e[i].room_num);
+                        $('#select_type').val(e[i].type_id);
+                        $('#select_position').val(e[i].position_id);
+                        $('#select_check').val(e[i].is_check);
+                        $('#direcion').val(e[i].room_derication);
+                    }
+                }
+            })
+        }
+    }
+    // 获取当前修改的房间信息
+    function getroom_infor(id_, callback) {
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/selectMore',
+            success: function (e) {
+                var data = JSON.parse(e).data;
+                callback(data);
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+
+    }
     // 新增房间的方法
     function addroom() {
         var obj = {
@@ -75,14 +131,12 @@
             'is_check': $('#select_check').val(),
             'room_derication': $('#direcion').val(),
         }
-        debugger
         $.ajax({
             type: 'post',
             url: '/api/hotel/addRoom',
             data: obj,
             success: function (e) {
-                debugger
-                if(JSON.parse(e).code == '0'){
+                if (JSON.parse(e).code == '0') {
                     alert('添加成功');
                 }
             },
@@ -91,7 +145,32 @@
             }
         })
     }
-
+    // 修改房间信息
+    function updateRoom(){
+        var obj = {
+            'ID':id_,
+            'room_num': $('#num').val(),
+            'type_id': $('#select_type').val(),
+            'position_id': $('#select_position').val(),
+            'is_check': $('#select_check').val(),
+            'room_derication': $('#direcion').val(),
+        }
+        debugger
+        $.ajax({
+            type: 'post',
+            url: '/api/hotel/updateRoom',
+            data: obj,
+            success: function (e) {
+                if (JSON.parse(e).code == '0') {
+                    alert('修改成功');
+                }
+            },
+            error: function (e) {
+                debugger
+            }
+        })
+    }
+   
 </script>
 
 </html>
