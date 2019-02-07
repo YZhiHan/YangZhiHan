@@ -8,18 +8,56 @@
     <title>Document</title>
     <script src="/static/javascripts/jquery.min.js"></script>
 </head>
-
+    <style>
+    tbody td{
+        padding: 10px 20px;
+    }
+    </style>
 <body>
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <th>订单流水</th>
+            <th>房间编号</th>
+            <th>证件号码</th>
+            <th>入住时间</th>
+            <th>离开时间</th>
+            <th>房间类型</th>
+            <th>联系人</th>
+            <th>联系电话</th>
+            <th>网上交易</th>
+            <th>完成交易</th>
+        </thead>
+        <tbody>
 
+        </tbody>
+    </table>
 </body>
 <script>
+    var html_ = '';
     $.ajax({
-        type:'post',
-        url:'/api/hotel/select_orderlist',
-        success:function(e){
+        type: 'post',
+        url: '/api/hotel/select_orderlist',
+        success: function (e) {
+            var data = JSON.parse(e).data;
+            debugger
+            for (var i in data) {
+                html_ += ` <tr>
+                <td>${i}</td>
+                <td>${data[i].room_num}</td>
+                <td>${data[i].cardnum}</td>
+                <td>${data[i].checkin_time}</td>
+                <td>${data[i].leavetime}</td>
+                <td>${data[i].type_name}</td>
+                <td>${data[i].cname}</td>
+                <td>${data[i].phone}</td>
+                <td>${data[i].online_shopping}</td>
+                <td>${data[i].is_complete}</td>
+            </tr>`
+            }
+            $('tbody').html(html_);
             debugger
         },
-        error:function(e){
+        error: function (e) {
             debugger
         }
     })

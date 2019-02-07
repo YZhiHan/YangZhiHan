@@ -48,7 +48,7 @@ function selectWhere(tablename, data, callback) {
     }
     where_ += '1';
     let sql = `select * from \`${tablename}\` where ${where_}`;
-    // console.log(sql);
+    console.log(sql);
     qyery(sql, callback);
 
 }
@@ -94,7 +94,7 @@ function select_two(tab1, tab2, data, callback) {
         }
     }
     var sql = `select * from \`${tab1}\` as a JOIN \`${tab2}\` as b where a.${where_} and a.type_id=b.type_id`;
-    console.log(sql);
+    // console.log(sql);
     qyery(sql, callback);
 }
 // 多表联查（订单表，客户表，房间表，房间类型表）
